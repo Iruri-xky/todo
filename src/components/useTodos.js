@@ -15,7 +15,19 @@ export function useTodos() {
     onMounted(() => {
         const raw = localStorage.getItem(STORAGE_KEY)
         if (raw) {
-            try { todos.value = JSON.parse(raw) }
+            try { 
+                const parsed = JSON.parse(raw)
+                // 确保是数组且每个元素包含必要字段
+                if (Array.isArray(parsed)) {
+                    todos.value = parsed.filter(item => 
+                        item && typeof item.id === 'number' &&
+                        typeof item.text === 'string' &&
+                        typeof item.done === 'boolean'
+                    )
+                } else {
+                    todos.value = []
+                }
+             }
             catch { todos.value = [] }
         }
     })
@@ -38,7 +50,14 @@ export function useTodos() {
     })
     // 单个操作
     function addTodo(text) {
-        todos.value.push({ id: Date.now(), text, done: false})
+        const trimmed = text.trim()
+        if (!trimmed) return false
+        if (todos.value.some(t => t.text.toLowerCase() === trimmed.toLowerCase())) {
+            alert('该待办已存在！')
+            return false
+        }
+        todos.value.push({ id: Date.now(), trimmed, done: false})
+        return true
     }
     function toggleTodo(id) {
         const t = todos.value.find(t => t.id === id)
@@ -66,7 +85,7 @@ export function useTodos() {
     }
     // 导出
     return {
-        todos, filter, status, filteredTodos, remaining, rate, allDone, 
+        todos, filter, status, filteredTodos, remaining, rate, allDone,
         addTodo, toggleTodo, removeTodo, editTodo, 
         setFilter, toggleAll, clearCompleted, clearAll
     }

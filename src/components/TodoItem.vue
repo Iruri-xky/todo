@@ -7,7 +7,7 @@
         >
 
         <template v-if="editing">
-            <input v-model.trim="draft" @keyup.enter="saveEdit">
+            <input v-model.trim="draft" @keyup.enter="saveEdit" maxlength="200">
             <button @click="saveEdit">保存</button>
         </template>
         <template v-else>
@@ -43,8 +43,58 @@ function saveEdit() {
 </script>
 
 <style scoped>
-.item { display: flex; align-items: center; gap: 8px; margin: 8px 0; list-style: none;}
-.item span {flex: 1;}
-.done { text-decoration: line-through; color: #999;}
-button { cursor: pointer;}
+.item { 
+    display: flex; 
+    align-items: center; 
+    margin: 8px 0; 
+    gap: 12px;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.15s;
+}
+.item:last-child {
+    border-bottom: none;
+}
+.item:hover {
+    background: #f0fff4;
+}
+.item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+.item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-height: 4.5em;
+
+}
+.done { 
+    text-decoration: line-through; 
+    color: var(--color-text-light);
+}
+.item button {
+    padding: 6px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+}
+.item button:hover {
+    background: var(--color-bg);
+}
+.item button:last-child:hover {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+@media (max-width: 480px) {
+      .item span {
+    font-size: 15px;
+  }
+}
 </style>

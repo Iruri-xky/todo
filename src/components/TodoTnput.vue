@@ -24,7 +24,43 @@ function submit(){
 </script>
 
 <style scoped>
-.input-row { display: flex; gap: 8px; margin-bottom: 16px }
-input { flex: 1; padding: 6px 10px; font-size: 14px }
-button { padding: 8px 16px; cursor: pointer }
+.input-row { 
+    display: flex; 
+    gap: 8px; 
+    margin-bottom: 16px }
+.input-row input { 
+    flex: 1; 
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 16px; 
+    outline: none;
+    transition: border-color 0.2s;
+}
+.input-row input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(65, 184, 131, 0.15);
+}
+.input-row button {
+    padding: 10px 20px; 
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.input-row button:hover {
+    background: var(--color-primary-dark);
+}
+@media (max-width: 480px) {
+  .input {
+    font-size: 16px;
+    padding: 12px;
+  }
+  .input-row button {
+    padding: 12px 16px;
+  }
+}
 </style>
